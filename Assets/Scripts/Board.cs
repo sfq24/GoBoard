@@ -12,4 +12,16 @@ public class Board : MonoBehaviour
         new Vector2(0f, spacing),
         new Vector2(0f,-spacing)
     };
+
+    private List<Node> m_allNodes = new List<Node>();
+    public List<Node>  AllNode { get { return m_allNodes; } }
+    private void Awake()
+    {
+        GetAllNodes();
+    }
+    private void GetAllNodes()
+    {
+        Node[] nodes = FindObjectsOfType<Node>();
+        m_allNodes = new List<Node>(nodes);
+    }
 }
