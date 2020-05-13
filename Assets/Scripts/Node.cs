@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,7 +13,7 @@ public class Node : MonoBehaviour
     public float scaleTime = 0.3f;
 
     public iTween.EaseType easeType = iTween.EaseType.easeInExpo;
-
+    public Link linkPrefab;
     public bool autoRun;
 
     public float delay = 1f;
@@ -23,6 +22,9 @@ public class Node : MonoBehaviour
 
     private List<Node> m_neighborNodes = new List<Node>();
     public List<Node> NeighborNodes { get { return m_neighborNodes; } }
+
+    private List<Node> m_linkedNodes = new List<Node>();
+    public List<Node> LinkedNodes { get { return m_linkedNodes; } }
 
     private void Awake()
     {
@@ -77,7 +79,6 @@ public class Node : MonoBehaviour
             InitNeighbors();
             initialized = true;
         }
-
     }
 
     private void InitNeighbors()
@@ -85,12 +86,37 @@ public class Node : MonoBehaviour
         StartCoroutine(ShowNeighbors());
     }
 
-    IEnumerator ShowNeighbors()
+    private IEnumerator ShowNeighbors()
     {
         yield return new WaitForSeconds(delay);
-        foreach(var neighbor in NeighborNodes)
+        foreach (var neighbor in NeighborNodes)
         {
-            neighbor.InitNode();
+            if (!m_linkedNodes.Contains(neighbor))
+            {
+                DrawNeighborLink(neighbor);
+                neighbor.InitNode();
+            }
+        }
+    }
+
+    private void DrawNeighborLink(Node target)
+    {
+        if (linkPrefab != null)
+        {
+            Link linkObj = Instantiate(linkPrefab, transform.position, Quaternion.identity);
+            linkObj.transform.parent = transform;
+            if (linkObj != null)
+            {
+                linkObj.DrawLink(transform.position, target.transform.position);
+                if (!m_linkedNodes.Contains(target))
+                {
+                    m_linkedNodes.Add(target);
+                }
+                if (!target.LinkedNodes.Contains(this))
+                {
+                    target.LinkedNodes.Add(this);
+                }
+            }
         }
     }
 }

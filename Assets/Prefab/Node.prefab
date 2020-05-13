@@ -47,6 +47,8 @@ MonoBehaviour:
   geometry: {fileID: 8581478629066464957}
   scaleTime: 0.3
   easeType: 15
+  linkPrefab: {fileID: 6877987665869213316, guid: 0b0b3db37c10a1a45afe6af14da6947c,
+    type: 3}
   autoRun: 0
   delay: 0.3
 --- !u!1 &8581478629066464957

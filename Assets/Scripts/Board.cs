@@ -24,4 +24,10 @@ public class Board : MonoBehaviour
         Node[] nodes = FindObjectsOfType<Node>();
         m_allNodes = new List<Node>(nodes);
     }
+
+    public Node targetNode(Vector3 targetPos)
+    {
+        Vector2 cood = new Vector2(targetPos.x, targetPos.z);
+        return m_allNodes.Find(n => n.Coordinate == cood);
+    }
 }

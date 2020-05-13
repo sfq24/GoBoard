@@ -10,29 +10,19 @@ public class PlayerMover : MonoBehaviour
 
     public float moveSpeed = 1.5f;
     public float delay = 0f;
-
-    // Start is called before the first frame update
-    void Start()
+    private Board board;
+    void Awake()
     {
-        //StartCoroutine(Test());
-
+        board = FindObjectOfType<Board>().GetComponent<Board>();
     }
 
     public void Move(Vector3 destinationPos, float delayTime = 0.25f)
     {
-        StartCoroutine(MoveRoutine(destinationPos, delayTime));
+        if( board.targetNode(destinationPos) != null)
+        {
+            StartCoroutine(MoveRoutine(destinationPos, delayTime));
+        }
     }
-    //IEnumerator Test()
-    //{
-    //    yield return new WaitForSeconds(1f);
-    //    MoveRight();
-    //    yield return new WaitForSeconds(2f);
-    //    MoveRight();
-    //    yield return new WaitForSeconds(2f);
-    //    MoveDown();
-    //    yield return new WaitForSeconds(2f);
-    //    MoveDown();
-    //}
     IEnumerator MoveRoutine(Vector3 destinationPos, float delayTime)
     {
         isMoving = true;
@@ -54,24 +44,24 @@ public class PlayerMover : MonoBehaviour
 
     public void MoveLeft()
     {
-        Vector3 newPosition = transform.position + new Vector3(2, 0, 0);
+        Vector3 newPosition = transform.position + new Vector3(Board.spacing, 0, 0);
         Move(newPosition,0);
     }
     public void MoveRight()
     {
-        Vector3 newPosition = transform.position + new Vector3(-2, 0, 0);
+        Vector3 newPosition = transform.position + new Vector3(-Board.spacing, 0, 0);
         Move(newPosition,0);
     }
 
     public void MoveUp()
     {
-        Vector3 newPosition = transform.position + new Vector3(0, 0, -2);
+        Vector3 newPosition = transform.position + new Vector3(0, 0, -Board.spacing);
         Move(newPosition,0);
     }
 
     public void MoveDown()
     {
-        Vector3 newPosition = transform.position + new Vector3(0, 0, 2);
+        Vector3 newPosition = transform.position + new Vector3(0, 0, Board.spacing);
         Move(newPosition,0);
     }
 
