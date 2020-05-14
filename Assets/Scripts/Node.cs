@@ -14,11 +14,11 @@ public class Node : MonoBehaviour
 
     public iTween.EaseType easeType = iTween.EaseType.easeInExpo;
     public Link linkPrefab;
-    public bool autoRun;
 
     public float delay = 1f;
     private bool initialized = false;
     private Board board;
+    public LayerMask blockLayer;
 
     private List<Node> m_neighborNodes = new List<Node>();
     public List<Node> NeighborNodes { get { return m_neighborNodes; } }
@@ -37,10 +37,6 @@ public class Node : MonoBehaviour
         if (geometry != null)
         {
             geometry.transform.localScale = Vector3.zero;
-        }
-        if (autoRun)
-        {
-            InitNode();
         }
         if (board != null)
         {
@@ -93,8 +89,11 @@ public class Node : MonoBehaviour
         {
             if (!m_linkedNodes.Contains(neighbor))
             {
-                DrawNeighborLink(neighbor);
-                neighbor.InitNode();
+                if (FindBlock(neighbor) == null)
+                {
+                    DrawNeighborLink(neighbor);
+                    neighbor.InitNode();
+                }
             }
         }
     }
@@ -118,5 +117,17 @@ public class Node : MonoBehaviour
                 }
             }
         }
+    }
+
+    private Block FindBlock(Node target)
+    {
+        Vector3 dir = target.Coordinate - Coordinate;
+        RaycastHit raycastHit;
+        if (Physics.Raycast(transform.position, dir, out raycastHit, Board.spacing, blockLayer))
+        {
+            Debug.Log("Find block from " + this.name + " to : " + target.name);
+            return raycastHit.collider.GetComponent<Block>();
+        }
+        return null;
     }
 }

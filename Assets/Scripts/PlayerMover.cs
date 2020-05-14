@@ -18,7 +18,7 @@ public class PlayerMover : MonoBehaviour
 
     public void Move(Vector3 destinationPos, float delayTime = 0.25f)
     {
-        if( board.targetNode(destinationPos) != null)
+        if( board.targetNode(destinationPos) != null && board.PlayerNode.LinkedNodes.Contains(board.targetNode(destinationPos)))
         {
             StartCoroutine(MoveRoutine(destinationPos, delayTime));
         }
@@ -40,6 +40,8 @@ public class PlayerMover : MonoBehaviour
         iTween.Stop(gameObject);
         transform.position = destinationPos;
         isMoving = false;
+
+        board.UpdatePlayerNode();
     }
 
     public void MoveLeft()

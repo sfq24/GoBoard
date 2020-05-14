@@ -51,6 +51,9 @@ MonoBehaviour:
     type: 3}
   autoRun: 0
   delay: 0.3
+  blockLayer:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!1 &8581478629066464957
 GameObject:
   m_ObjectHideFlags: 0
