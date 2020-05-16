@@ -46,24 +46,24 @@ public class PlayerMover : MonoBehaviour
 
     public void MoveLeft()
     {
-        Vector3 newPosition = transform.position + new Vector3(Board.spacing, 0, 0);
+        Vector3 newPosition = transform.position + new Vector3(-Board.spacing, 0, 0);
         Move(newPosition,0);
     }
     public void MoveRight()
     {
-        Vector3 newPosition = transform.position + new Vector3(-Board.spacing, 0, 0);
+        Vector3 newPosition = transform.position + new Vector3(Board.spacing, 0, 0);
         Move(newPosition,0);
     }
 
     public void MoveUp()
     {
-        Vector3 newPosition = transform.position + new Vector3(0, 0, -Board.spacing);
+        Vector3 newPosition = transform.position + new Vector3(0, 0, Board.spacing);
         Move(newPosition,0);
     }
 
     public void MoveDown()
     {
-        Vector3 newPosition = transform.position + new Vector3(0, 0, Board.spacing);
+        Vector3 newPosition = transform.position + new Vector3(0, 0, -Board.spacing);
         Move(newPosition,0);
     }
 

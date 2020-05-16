@@ -21,7 +21,7 @@ public class PlayerManager : MonoBehaviour
             return;
         }
         PlayerInput.GetKeyInput();
-        Debug.Log("H: " + PlayerInput.H + "V: " + PlayerInput.V);
+        //Debug.Log("H: " + PlayerInput.H + "V: " + PlayerInput.V);
         if (PlayerInput.H == 0)
         {
             if (PlayerInput.V > 0)

@@ -125,7 +125,7 @@ public class Node : MonoBehaviour
         RaycastHit raycastHit;
         if (Physics.Raycast(transform.position, dir, out raycastHit, Board.spacing, blockLayer))
         {
-            Debug.Log("Find block from " + this.name + " to : " + target.name);
+            //Debug.Log("Find block from " + this.name + " to : " + target.name);
             return raycastHit.collider.GetComponent<Block>();
         }
         return null;
