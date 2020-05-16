@@ -18,11 +18,31 @@ public class Board : MonoBehaviour
     private Node m_playerNode;
     public Node PlayerNode { get { return m_playerNode; } }
 
+    public Node GoalNode { get => m_goalNode; set => m_goalNode = value; }
+
+    private Node m_goalNode;
+
+    public GameObject goalPrefab;
+
     private PlayerMover playerMover;
+
+    public float drawGoalTime = 2f;
+    public float drawGoalDelay = 2f;
+    public iTween.EaseType easeType = iTween.EaseType.easeInOutQuad;
 
     private void Awake()
     {
         GetAllNodes();
+        m_goalNode = FindGoalNode();
+    }
+
+    Node FindGoalNode()
+    {
+        if(goalPrefab != null)
+        {
+            return m_allNodes.Find(n => n.isLevelGoal);
+        }
+        return null;
     }
 
     private void Start()
@@ -32,6 +52,7 @@ public class Board : MonoBehaviour
         {
             m_playerNode.InitNode();
         }
+
     }
 
     private void GetAllNodes()
@@ -70,6 +91,15 @@ public class Board : MonoBehaviour
         {
             Gizmos.color = new Color(0, 1, 1, 0.5f);
             Gizmos.DrawSphere(m_playerNode.transform.position, 0.5f);
+        }
+    }
+
+    public void DrawGoal()
+    {
+        if(goalPrefab != null && m_goalNode != null)
+        {
+            GameObject goalobj = Instantiate(goalPrefab, m_goalNode.transform.position, Quaternion.identity);
+            iTween.ScaleFrom(goalobj, iTween.Hash("time", drawGoalTime, "delay", drawGoalDelay, "scale", Vector3.zero, "easetype", easeType));
         }
     }
 }

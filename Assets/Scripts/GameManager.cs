@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -20,8 +20,12 @@ public class GameManager : MonoBehaviour
 
     private bool m_hasLevelFinished = false;
 
-
     public float delay = 1f;
+
+    public UnityEvent startLevelEvent;
+    public UnityEvent playLevelEvent;
+    public UnityEvent endLevelEvent;
+
     private void Awake()
     {
         m_board = FindObjectOfType<Board>().GetComponent<Board>();
@@ -50,10 +54,11 @@ public class GameManager : MonoBehaviour
 
         while (!m_hasGameStarted)
         {
-
             //HasLevelStarted = true;
             yield return null;
         }
+
+        if (startLevelEvent != null) { startLevelEvent.Invoke(); }
     }
 
     private IEnumerator PlayLevelRoutine()
@@ -62,6 +67,9 @@ public class GameManager : MonoBehaviour
         m_isGamePlaying = true;
         yield return new WaitForSeconds(delay);
         m_playerManager.PlayerInput.inputEnabled = true;
+
+        if (playLevelEvent != null) { playLevelEvent.Invoke(); }
+
         while (!m_isGameOver)
         {
             //check condition win or lose
@@ -73,6 +81,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("End Level");
         m_playerManager.PlayerInput.inputEnabled = false;
+        if (endLevelEvent != null) { endLevelEvent.Invoke(); }
 
         while (!m_hasLevelFinished)
         {

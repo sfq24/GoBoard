@@ -19,6 +19,7 @@ public class Node : MonoBehaviour
     private bool initialized = false;
     private Board board;
     public LayerMask blockLayer;
+    public bool isLevelGoal = false;
 
     private List<Node> m_neighborNodes = new List<Node>();
     public List<Node> NeighborNodes { get { return m_neighborNodes; } }
