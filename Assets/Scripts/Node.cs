@@ -122,11 +122,12 @@ public class Node : MonoBehaviour
 
     private Block FindBlock(Node target)
     {
-        Vector3 dir = target.Coordinate - Coordinate;
+        Vector3 dir = target.transform.position - transform.position;
+
         RaycastHit raycastHit;
-        if (Physics.Raycast(transform.position, dir, out raycastHit, Board.spacing, blockLayer))
+        if (Physics.Raycast(transform.position, dir, out raycastHit, Board.spacing + 0.1f, blockLayer))
         {
-            //Debug.Log("Find block from " + this.name + " to : " + target.name);
+            Debug.Log("Find block from " + this.name + " to : " + target.name);
             return raycastHit.collider.GetComponent<Block>();
         }
         return null;

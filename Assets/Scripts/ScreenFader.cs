@@ -5,9 +5,10 @@ using UnityEngine.UI;
 
 public class ScreenFader : MonoBehaviour
 {
-    public float delay = 0.5f;
-    public float fadeTime = 2f;
-    public iTween.EaseType easeType = iTween.EaseType.easeInOutExpo;
+    public float fadeOffDelay = 0.5f;
+    public float fadeInDelay = 0.5f;
+    public float fadeTime = 3f;
+    public iTween.EaseType easeType = iTween.EaseType.easeOutExpo;
 
     private Color solidColor = new Color(1, 1, 1, 1);
     private Color clearColor = new Color(1, 1, 1, 0);
@@ -27,7 +28,7 @@ public class ScreenFader : MonoBehaviour
             "from", solidColor,
             "to", clearColor,
             "time", fadeTime,
-            "delay",delay,
+            "delay", fadeOffDelay,
             "easetype",easeType,
             "onupdatetarget", gameObject,
             "onupdate", "UpdateColor"
@@ -40,7 +41,7 @@ public class ScreenFader : MonoBehaviour
             "from", clearColor,
             "to", solidColor,
             "time", fadeTime,
-            "delay", delay,
+            "delay", fadeInDelay,
             "easetype", easeType,
             "onupdatetarget", gameObject,
             "onupdate", "UpdateColor"

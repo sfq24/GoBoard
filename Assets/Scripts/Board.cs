@@ -48,10 +48,6 @@ public class Board : MonoBehaviour
     private void Start()
     {
         UpdatePlayerNode();
-        if(m_playerNode != null)
-        {
-            m_playerNode.InitNode();
-        }
 
     }
 
@@ -100,6 +96,14 @@ public class Board : MonoBehaviour
         {
             GameObject goalobj = Instantiate(goalPrefab, m_goalNode.transform.position, Quaternion.identity);
             iTween.ScaleFrom(goalobj, iTween.Hash("time", drawGoalTime, "delay", drawGoalDelay, "scale", Vector3.zero, "easetype", easeType));
+        }
+    }
+
+    public void InitBoard()
+    {
+        if (m_playerNode != null)
+        {
+            m_playerNode.InitNode();
         }
     }
 }
