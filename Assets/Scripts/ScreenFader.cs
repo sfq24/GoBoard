@@ -10,8 +10,8 @@ public class ScreenFader : MonoBehaviour
     public float fadeTime = 3f;
     public iTween.EaseType easeType = iTween.EaseType.easeOutExpo;
 
-    private Color solidColor = new Color(1, 1, 1, 1);
-    private Color clearColor = new Color(1, 1, 1, 0);
+    public Color solidColor = new Color(1, 1, 1, 1);
+    public Color clearColor = new Color(1, 1, 1, 0);
     private MaskableGraphic graphic;
     private void Awake()
     {
