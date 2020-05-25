@@ -2,13 +2,14 @@
 
 [RequireComponent(typeof(PlayerInput))]
 [RequireComponent(typeof(PlayerMover))]
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : TurnManager
 {
     public PlayerMover PlayerMover;
     public PlayerInput PlayerInput;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         PlayerInput = GetComponent<PlayerInput>();
         PlayerMover = GetComponent<PlayerMover>();
         PlayerInput.inputEnabled = true;
@@ -16,7 +17,7 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
-        if (PlayerMover.isMoving)
+        if (PlayerMover.isMoving || m_GameManager.CurrentTurn != Turn.Player)
         {
             return;
         }

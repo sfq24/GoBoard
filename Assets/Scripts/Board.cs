@@ -57,7 +57,7 @@ public class Board : MonoBehaviour
         m_allNodes = new List<Node>(nodes);
     }
 
-    public Node targetNode(Vector3 targetPos)
+    public Node TargetNode(Vector3 targetPos)
     {
         Vector2 cood = new Vector2(targetPos.x, targetPos.z);
         return m_allNodes.Find(n => n.Coordinate == cood);
@@ -68,7 +68,7 @@ public class Board : MonoBehaviour
         playerMover = FindObjectOfType<PlayerMover>();
         if (playerMover != null && playerMover.isMoving == false)
         {
-            return targetNode(playerMover.transform.position);
+            return TargetNode(playerMover.transform.position);
         }
         return null;
     }

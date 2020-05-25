@@ -1,6 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.Assertions.Must;
+using UnityEngine.Events;
+using UnityEngine.PlayerLoop;
 
 public class Mover : MonoBehaviour
 {
@@ -11,17 +15,46 @@ public class Mover : MonoBehaviour
 
     public float moveSpeed = 1.5f;
     public float delay = 0f;
+    public float rotateTime = 0.5f;
+    public bool rotation = false;
     private Board board;
+    public UnityEvent FinishMoveEvent;
+
+    protected Node CurrentNode;
     protected virtual void Awake()
     {
         board = FindObjectOfType<Board>().GetComponent<Board>();
     }
 
+    protected virtual void Start()
+    {
+        UpdateCurrentNode();
+    }
+
+    private void UpdateCurrentNode()
+    {
+        if(board != null)
+        {
+            CurrentNode = board.TargetNode(transform.position);
+        }
+    }
     public void Move(Vector3 destinationPos, float delayTime = 0.25f)
     {
-        if (board.targetNode(destinationPos) != null && board.PlayerNode.LinkedNodes.Contains(board.targetNode(destinationPos)))
+        if (isMoving)
         {
-            StartCoroutine(MoveRoutine(destinationPos, delayTime));
+            return;
+        }
+        if (board.TargetNode(destinationPos) != null && CurrentNode!=null)
+        {
+            if (CurrentNode.LinkedNodes.Contains(board.TargetNode(destinationPos)))
+            {
+
+                StartCoroutine(MoveRoutine(destinationPos, delayTime));
+            }
+        }
+        else
+        {
+            Debug.Log("board or Current node is null");
         }
     }
     IEnumerator MoveRoutine(Vector3 destinationPos, float delayTime)
@@ -29,7 +62,13 @@ public class Mover : MonoBehaviour
         isMoving = true;
         destination = destinationPos;
 
+        if (rotation)
+        {
+            FaceDestination();
+            yield return new WaitForSeconds(0.25f);
+        }
         yield return new WaitForSeconds(delayTime);
+
         iTween.MoveTo(gameObject, iTween.Hash("x", destinationPos.x, "y", destinationPos.y, "z", destinationPos.z, "delay", delay, "easetype", easeType, "speed", moveSpeed));
 
         //wait for itween movement
@@ -43,6 +82,9 @@ public class Mover : MonoBehaviour
         isMoving = false;
 
         board.UpdatePlayerNode();
+        UpdateCurrentNode();
+
+        FinishMoveEvent.Invoke();
     }
 
     public void MoveLeft()
@@ -66,5 +108,15 @@ public class Mover : MonoBehaviour
     {
         Vector3 newPosition = transform.position + new Vector3(0, 0, -Board.spacing);
         Move(newPosition, 0);
+    }
+
+    public void FaceDestination()
+    {
+        Vector3 dir = destination - transform.position;
+        Quaternion rot = Quaternion.LookRotation(dir);
+
+        float newY = rot.eulerAngles.y;
+
+        iTween.RotateTo(gameObject, iTween.Hash("y", newY, "delay", 0, "time", rotateTime, "easetype", easeType));
     }
 }

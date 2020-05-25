@@ -4,15 +4,34 @@ using UnityEngine;
 
 public class EnemyMover : Mover
 {
-    // Start is called before the first frame update
-    void Start()
+    public float standTime = 1f;
+    protected override void Awake()
     {
-        
+        base.Awake();
+        rotation = true;
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void Start()
     {
-        
+        base.Start();
+        //StartCoroutine(EnemyMove());
     }
+
+    IEnumerator EnemyMove()
+    {
+        yield return null;
+
+    }
+
+    public void Stand()
+    {
+        StartCoroutine(StandRoutine());
+    }
+
+    IEnumerator StandRoutine()
+    {
+        yield return new WaitForSeconds(standTime);
+        base.FinishMoveEvent.Invoke();
+    }
+
 }
