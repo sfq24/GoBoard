@@ -15,7 +15,7 @@ public class Node : MonoBehaviour
     public iTween.EaseType easeType = iTween.EaseType.easeInExpo;
     public Link linkPrefab;
 
-    public float delay = 1f;
+    public float delay = 0.2f;
     private bool initialized = false;
     private Board board;
     public LayerMask blockLayer;

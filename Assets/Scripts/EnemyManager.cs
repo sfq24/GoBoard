@@ -23,14 +23,25 @@ public class EnemyManager : TurnManager
 
     IEnumerator PlayTurnRoutine()
     {
-        m_enemySensor.SenseNode();
+        if(m_GameManager != null && !m_GameManager.IsGameOver)
+        {
+            m_enemySensor.SenseNode();
 
-        //attach player
+            yield return new WaitForSeconds(0.0f);
+            if (m_enemySensor.FindPlayer)
+            {
+                //attach player
 
-        //move
+                m_GameManager.LoseLevel();
+            }
+            else
+            {
+                //move
+                m_enemyMover.MoveOneTurn();
+            }
+        }
 
-        yield return new WaitForSeconds(0.5f);
-        m_enemyMover.Stand();
+
 
 
     }

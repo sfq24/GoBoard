@@ -17,7 +17,7 @@ public class Mover : MonoBehaviour
     public float delay = 0f;
     public float rotateTime = 0.5f;
     public bool rotation = false;
-    private Board board;
+    protected Board board;
     public UnityEvent FinishMoveEvent;
 
     protected Node CurrentNode;
@@ -110,7 +110,7 @@ public class Mover : MonoBehaviour
         Move(newPosition, 0);
     }
 
-    public void FaceDestination()
+    protected void FaceDestination()
     {
         Vector3 dir = destination - transform.position;
         Quaternion rot = Quaternion.LookRotation(dir);

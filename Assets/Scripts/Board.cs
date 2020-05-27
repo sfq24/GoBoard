@@ -27,7 +27,7 @@ public class Board : MonoBehaviour
     private PlayerMover playerMover;
 
     public float drawGoalTime = 2f;
-    public float drawGoalDelay = 2f;
+    public float drawGoalDelay = 1f;
     public iTween.EaseType easeType = iTween.EaseType.easeInOutQuad;
 
     private void Awake()
