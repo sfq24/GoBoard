@@ -1,11 +1,15 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(PlayerInput))]
 [RequireComponent(typeof(PlayerMover))]
+[RequireComponent(typeof(PlayerDeath))]
 public class PlayerManager : TurnManager
 {
     public PlayerMover PlayerMover;
     public PlayerInput PlayerInput;
+
+    public UnityEvent PlayerDieEvent;
 
     protected override void Awake()
     {
@@ -45,5 +49,10 @@ public class PlayerManager : TurnManager
                 PlayerMover.MoveLeft();
             }
         }
+    }
+
+    public void Die()
+    {
+        PlayerDieEvent.Invoke();
     }
 }
