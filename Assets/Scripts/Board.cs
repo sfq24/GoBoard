@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Board : MonoBehaviour
@@ -19,6 +20,7 @@ public class Board : MonoBehaviour
     public Node PlayerNode { get { return m_playerNode; } }
 
     public Node GoalNode { get => m_goalNode; set => m_goalNode = value; }
+    public int CurrentCapturePostion { get ; set ; }
 
     private Node m_goalNode;
 
@@ -29,6 +31,13 @@ public class Board : MonoBehaviour
     public float drawGoalTime = 2f;
     public float drawGoalDelay = 1f;
     public iTween.EaseType easeType = iTween.EaseType.easeInOutQuad;
+
+    public List<Transform> CapturePositions;
+
+    int currentCapturePostion = 0;
+
+    public float caputureIconSize = 0.4f;
+    public Color capturePosColor = Color.blue;
 
     private void Awake()
     {
@@ -81,12 +90,35 @@ public class Board : MonoBehaviour
         }
     }
 
+    public List<EnemyManager> FindEnemyAtNode(Node node)
+    {
+        List<EnemyManager> enemies = new List<EnemyManager>();
+
+        EnemyManager[] enemyManagers = FindObjectsOfType<EnemyManager>() as EnemyManager[];
+
+        foreach (EnemyManager enemy in enemyManagers)
+        {
+            EnemyMover enemyMover = enemy.GetComponent<EnemyMover>();
+            if(enemyMover.CurrentNode == node)
+            {
+                enemies.Add(enemy);
+            }
+        }
+        return enemies;
+    }
+
     private void OnDrawGizmos()
     {
         if (m_playerNode != null)
         {
             Gizmos.color = new Color(0, 1, 1, 0.5f);
             Gizmos.DrawSphere(m_playerNode.transform.position, 0.5f);
+        }
+
+        Gizmos.color = capturePosColor;
+        foreach (Transform capturePos in CapturePositions)
+        {
+            Gizmos.DrawCube(capturePos.position, Vector3.one * caputureIconSize);
         }
     }
 

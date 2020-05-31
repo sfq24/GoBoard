@@ -16,12 +16,19 @@ public class EnemySensor : MonoBehaviour
 
     }
 
-    public void SenseNode()
+    public void SenseNode(Node currNode)
     {
         Vector3 worldspacePostion = transform.TransformVector(SensingPostion) + transform.position;
         if(m_board != null)
         {
             nodeToSearch = m_board.TargetNode(worldspacePostion);
+
+            if (!currNode.LinkedNodes.Contains(nodeToSearch))
+            {
+                m_findPlayer = false;
+                return;
+            }
+
             if(nodeToSearch == m_board.PlayerNode)
             {
                 m_findPlayer = true;

@@ -169,10 +169,13 @@ public class GameManager : MonoBehaviour
         CurrentTurn = Turn.Enermy;
         foreach (EnemyManager enemy in enemyManagers)
         {
-            enemy.IsTurnComplete = false;
+            if (enemy != null && !enemy.IsDead)
+            {
+                enemy.IsTurnComplete = false;
 
-            //play Enemy turn
-            enemy.PlayTurn();
+                //play Enemy turn
+                enemy.PlayTurn();
+            }
         }
     }
 
@@ -180,6 +183,7 @@ public class GameManager : MonoBehaviour
     {
         foreach (EnemyManager enemy in enemyManagers)
         {
+            if (enemy.IsDead) { continue; }
             if (!enemy.IsTurnComplete)
             {
                 return false;
@@ -188,11 +192,22 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
+    bool AreEnemiesAllDead()
+    {
+        foreach (EnemyManager enemy in enemyManagers)
+        {
+            if (!enemy.IsDead)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
     public void UpdateTurn()
     {
         if (m_playerManager != null && CurrentTurn == Turn.Player)
         {
-            if (m_playerManager.IsTurnComplete)
+            if (m_playerManager.IsTurnComplete && !AreEnemiesAllDead())
             {
                 PlayEnemyTurn();
             }

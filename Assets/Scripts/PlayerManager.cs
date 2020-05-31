@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(PlayerInput))]
@@ -54,5 +55,27 @@ public class PlayerManager : TurnManager
     public void Die()
     {
         PlayerDieEvent.Invoke();
+    }
+
+    private void CaptureEnemies()
+    {
+        List<EnemyManager> enemies = m_board.FindEnemyAtNode(m_board.PlayerNode);
+
+        if (enemies.Count > 0)
+        {
+            foreach (EnemyManager enemy in enemies)
+            {
+                if (enemy != null)
+                {
+                    enemy.Die();
+                }
+            }
+        }
+    }
+
+    public override void FinishTurn()
+    {
+        CaptureEnemies();
+        base.FinishTurn();
     }
 }

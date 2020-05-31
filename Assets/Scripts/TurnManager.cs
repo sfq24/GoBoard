@@ -14,7 +14,7 @@ public class TurnManager : MonoBehaviour
         m_board = FindObjectOfType<Board>().GetComponent<Board>();
     }
 
-    public void FinishTurn()
+    public virtual void FinishTurn()
     {
         IsTurnComplete = true;
 

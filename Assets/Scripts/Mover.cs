@@ -20,7 +20,9 @@ public class Mover : MonoBehaviour
     protected Board board;
     public UnityEvent FinishMoveEvent;
 
-    protected Node CurrentNode;
+    private Node currentNode;
+    public Node CurrentNode { get => currentNode; }
+
     protected virtual void Awake()
     {
         board = FindObjectOfType<Board>().GetComponent<Board>();
@@ -35,7 +37,7 @@ public class Mover : MonoBehaviour
     {
         if(board != null)
         {
-            CurrentNode = board.TargetNode(transform.position);
+            currentNode = board.TargetNode(transform.position);
         }
     }
     public void Move(Vector3 destinationPos, float delayTime = 0.25f)
